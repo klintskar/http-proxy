@@ -8,30 +8,18 @@ def main():
     server_address = ('localhost', 8080)
     client_socket.connect(server_address)
 
-    try:
-        print("Connected to server.")
+    print("Connected to server.")
 
-        while True:
-            # Get user input
-            message = input("Enter message to send: ")
+    # Prepare the GET request for a blocked site
+    blocked_site_url = "example.com"  # Replace this with the URL of the blocked site
+    get_request = f"GET {blocked_site_url} HTTP/1.1\r\nHost: localhost\r\n\r\n"
 
-            # Send the message to the server
-            client_socket.sendall(message.encode())
+    # Send the GET request to the server
+    client_socket.sendall(get_request.encode())
 
-            # Check for termination condition
-            if message == "end":
-                break
-
-            # Receive the server's response
-            data = client_socket.recv(1024)
-            if not data:
-                print("Server closed the connection.")
-                break
-            print("Received from server:", data.decode())
-
-    finally:
-        # Close the connection
-        client_socket.close()
+    # Receive the server's response
+    #data = client_socket.recv(1024)
+    #print("Received from server:", data.decode())
 
 if __name__ == "__main__":
     main()
